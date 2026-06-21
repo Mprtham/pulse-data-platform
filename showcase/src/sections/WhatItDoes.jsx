@@ -1,11 +1,11 @@
 import './WhatItDoes.css';
 
 const STEPS = [
-  { n: '01', head: 'Ingest live',         body: 'A Python generator streams synthetic UK retail orders (modelled on UCI Online Retail II) into Redpanda — a Kafka-compatible message broker — at configurable throughput.' },
-  { n: '02', head: 'Check quality',       body: '23 automated dbt tests run on every build: null checks, uniqueness, allowed-value ranges, and two custom SQL assertions written specifically for this domain.' },
-  { n: '03', head: 'Block bad data',      body: '~15% of events carry injected faults (missing keys, negative prices, out-of-range countries). The staging model filters them out. Bad rows never reach the mart.' },
-  { n: '04', head: 'Serve the dashboard', body: 'Clean mart tables are exposed to Power BI Desktop via DuckDB. A FastAPI status endpoint and React tile page give a real-time health view.' },
-  { n: '05', head: 'Alarm on break',      body: 'A Python monitor checks data freshness every 30 s. If rows stop arriving or tests fail, it fires a Discord webhook alert and GitHub Actions blocks the merge.' },
+  { n: '01', head: 'Ingest live',         body: 'A Python generator streams synthetic UK retail orders, modelled on the UCI Online Retail II dataset, into Redpanda at configurable throughput. Redpanda is Kafka-compatible, so the same code runs against a production Kafka cluster unchanged.' },
+  { n: '02', head: 'Check quality',       body: '23 automated dbt tests run on every build. They cover null checks, uniqueness, allowed-value ranges, and two custom SQL assertions written for this domain.' },
+  { n: '03', head: 'Block bad data',      body: 'About 15% of events carry injected faults: missing keys, negative prices, and out-of-range countries. The staging model filters them out. Bad rows never reach the mart.' },
+  { n: '04', head: 'Serve the dashboard', body: 'Clean mart tables are exposed to Power BI Desktop via DuckDB. A FastAPI status endpoint and React tile page give a live health view.' },
+  { n: '05', head: 'Alarm on break',      body: 'A Python monitor checks data freshness every 30 seconds. If rows stop arriving or tests fail, it fires a Discord webhook alert and GitHub Actions blocks the merge.' },
 ];
 
 export default function WhatItDoes() {

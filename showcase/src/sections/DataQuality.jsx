@@ -20,13 +20,13 @@ export default function DataQuality() {
         <p className="section-label">Data Quality</p>
         <h2>The differentiator</h2>
         <p className="section-sub">
-          Bad data costs UK businesses an estimated £12.9bn per year (Experian, 2021).
-          Pulse catches it at the boundary — not in the boardroom.
+          According to Experian's 2021 research, bad data costs UK businesses an estimated £12.9bn a year.
+          Pulse catches it at the boundary, not in the boardroom.
         </p>
 
         <div className="dq-grid">
           <div>
-            <h3 className="dq-sub-head">Test suite — 23 passing, 0 failing</h3>
+            <h3 className="dq-sub-head">Test suite: 23 passing, 0 failing</h3>
             <table className="dq-table">
               <thead>
                 <tr><th>Type</th><th>Count</th><th>Examples</th></tr>
@@ -47,7 +47,7 @@ export default function DataQuality() {
               </tbody>
             </table>
 
-            <h3 className="dq-sub-head" style={{marginTop: '32px'}}>Fault injection (~15% of events)</h3>
+            <h3 className="dq-sub-head" style={{marginTop: '32px'}}>Fault injection, about 15% of events</h3>
             <table className="dq-table">
               <thead>
                 <tr><th>Injected fault</th><th>How Pulse handles it</th></tr>
@@ -64,7 +64,7 @@ export default function DataQuality() {
           </div>
 
           <div>
-            <h3 className="dq-sub-head">Sample mart output — real data, honest snapshot</h3>
+            <h3 className="dq-sub-head">Sample mart output: real data, honest snapshot</h3>
             <p className="dq-note">Synthetic UK retail orders · GBP · 3 days · 10 raw rows → 10 clean rows</p>
             <table className="dq-table">
               <thead>

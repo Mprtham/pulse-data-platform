@@ -11,7 +11,7 @@ export default function FooterSection() {
 
         <div className="footer-links">
           <a
-            href="https://github.com/prathamesh-mishra/pulse-data-platform"
+            href="https://github.com/Mprtham/pulse-data-platform"
             target="_blank"
             rel="noopener noreferrer"
           >
@@ -22,7 +22,7 @@ export default function FooterSection() {
         <div className="footer-meta">
           <span>Built by <strong>Prathamesh Mishra</strong></span>
           <span className="footer-honest">
-            Snapshot demo — synthetic data, captured 2026-06-21.
+            Snapshot demo. Synthetic data, captured 2026-06-21.
             Full live system runs locally via <code>docker compose up</code>.
             Not deployed to production.
           </span>

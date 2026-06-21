@@ -17,14 +17,14 @@ export default function Hero() {
         <p className="hero-pitch">A real-time data platform that refuses to serve bad data.</p>
         <p className="hero-sub">
           Streaming orders flow from generator to warehouse in under a second.
-          Every row is tested before it reaches the dashboard — bad data is blocked,
+          Every row is tested before it reaches the dashboard. Bad data is blocked,
           not buried.
         </p>
 
         <div className="hero-ctas">
           <a
             className="btn btn-primary"
-            href="https://github.com/prathamesh-mishra/pulse-data-platform"
+            href="https://github.com/Mprtham/pulse-data-platform"
             target="_blank"
             rel="noopener noreferrer"
           >

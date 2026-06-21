@@ -5,10 +5,10 @@ export default function SnapshotBanner() {
     <div className="snapshot-banner" role="note">
       <span className="snapshot-icon">📸</span>
       <span>
-        <strong>Snapshot demo</strong> — the full live system runs locally via{' '}
+        <strong>Snapshot demo.</strong> The full live system runs locally via{' '}
         <code>docker compose up</code>. This page shows a captured sample from{' '}
         <strong>2026-06-21</strong> (dbt build PASS=27).{' '}
-        <a href="https://github.com/prathamesh-mishra/pulse-data-platform" target="_blank" rel="noopener noreferrer">
+        <a href="https://github.com/Mprtham/pulse-data-platform" target="_blank" rel="noopener noreferrer">
           View source on GitHub →
         </a>
       </span>
