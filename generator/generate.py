@@ -48,15 +48,17 @@ def build_event() -> dict:
     qty = random.randint(1, 12)
     price = round(base_price * random.uniform(0.9, 1.1), 2)
 
+    now = datetime.now(timezone.utc).isoformat()
     return {
         "invoice_no":   next_invoice_no(),
         "stock_code":   stock_code,
         "description":  description,
         "quantity":     qty,
-        "invoice_date": datetime.now(timezone.utc).isoformat(),
+        "invoice_date": now,
         "unit_price":   price,
         "customer_id":  random.choice(CUSTOMER_IDS),
         "country":      random.choice(COUNTRIES),
+        "ingested_at":  now,
     }
 
 

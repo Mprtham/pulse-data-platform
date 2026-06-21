@@ -1,6 +1,7 @@
 import json
 import os
 import time
+from datetime import datetime, timezone
 
 import duckdb
 from confluent_kafka import Consumer, KafkaError
@@ -36,8 +37,8 @@ def flush(conn: duckdb.DuckDBPyConnection, batch: list[dict]) -> int:
         """
         INSERT INTO raw.orders
             (invoice_no, stock_code, description, quantity,
-             invoice_date, unit_price, customer_id, country)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+             invoice_date, unit_price, customer_id, country, ingested_at)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
         """,
         [
             (
@@ -49,6 +50,7 @@ def flush(conn: duckdb.DuckDBPyConnection, batch: list[dict]) -> int:
                 r.get("unit_price"),
                 r.get("customer_id"),
                 r.get("country"),
+                r.get("ingested_at") or datetime.now(timezone.utc).isoformat(),
             )
             for r in batch
         ],
