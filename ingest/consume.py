@@ -13,7 +13,8 @@ BATCH_SIZE = 50
 FLUSH_INTERVAL = 5.0  # seconds
 
 
-def bootstrap(conn: duckdb.DuckDBPyConnection):
+def bootstrap(path: str):
+    conn = duckdb.connect(path)
     conn.execute("""
         CREATE SCHEMA IF NOT EXISTS raw;
         CREATE TABLE IF NOT EXISTS raw.orders (
@@ -25,14 +26,19 @@ def bootstrap(conn: duckdb.DuckDBPyConnection):
             unit_price   DOUBLE,
             customer_id  VARCHAR,
             country      VARCHAR,
-            ingested_at  TIMESTAMP DEFAULT now()
+            ingested_at  TIMESTAMP
         );
     """)
+    conn.close()
 
 
-def flush(conn: duckdb.DuckDBPyConnection, batch: list[dict]) -> int:
+def flush(path: str, batch: list[dict]) -> int:
     if not batch:
         return 0
+    # Open, write, checkpoint, close — hold the lock for milliseconds only.
+    # This lets the status API (read-only, separate container) connect freely
+    # between flushes without hitting a cross-container PID-namespace lock conflict.
+    conn = duckdb.connect(path)
     conn.executemany(
         """
         INSERT INTO raw.orders
@@ -55,15 +61,15 @@ def flush(conn: duckdb.DuckDBPyConnection, batch: list[dict]) -> int:
             for r in batch
         ],
     )
+    conn.execute("CHECKPOINT")
+    conn.close()
     return len(batch)
 
 
 def main():
-    # Wait for Redpanda to be fully ready
-    time.sleep(5)
+    time.sleep(5)  # wait for Redpanda to be fully ready
 
-    conn = duckdb.connect(DUCKDB_PATH)
-    bootstrap(conn)
+    bootstrap(DUCKDB_PATH)
 
     consumer = Consumer(
         {
@@ -74,7 +80,7 @@ def main():
         }
     )
     consumer.subscribe([TOPIC])
-    print(f"[ingest] subscribed to {TOPIC} on {BROKER}")
+    print(f"[ingest] subscribed to {TOPIC} on {BROKER}", flush=True)
 
     batch: list[dict] = []
     last_flush = time.time()
@@ -87,18 +93,17 @@ def main():
                 pass
             elif msg.error():
                 if msg.error().code() != KafkaError._PARTITION_EOF:
-                    print(f"[ingest] error: {msg.error()}")
+                    print(f"[ingest] error: {msg.error()}", flush=True)
             else:
                 try:
                     batch.append(json.loads(msg.value()))
                 except json.JSONDecodeError:
-                    print(f"[ingest] bad JSON: {msg.value()}")
+                    print(f"[ingest] bad JSON: {msg.value()}", flush=True)
 
             age = time.time() - last_flush
             if len(batch) >= BATCH_SIZE or (batch and age >= FLUSH_INTERVAL):
-                n = flush(conn, batch)
+                n = flush(DUCKDB_PATH, batch)
                 total += n
-                conn.execute("CHECKPOINT")
                 print(f"[ingest] flushed {n} rows (total={total})", flush=True)
                 batch.clear()
                 last_flush = time.time()
@@ -106,10 +111,5 @@ def main():
     except KeyboardInterrupt:
         pass
     finally:
-        flush(conn, batch)
+        flush(DUCKDB_PATH, batch)
         consumer.close()
-        conn.close()
-
-
-if __name__ == "__main__":
-    main()
