@@ -98,7 +98,8 @@ def main():
             if len(batch) >= BATCH_SIZE or (batch and age >= FLUSH_INTERVAL):
                 n = flush(conn, batch)
                 total += n
-                print(f"[ingest] flushed {n} rows (total={total})")
+                conn.execute("CHECKPOINT")
+                print(f"[ingest] flushed {n} rows (total={total})", flush=True)
                 batch.clear()
                 last_flush = time.time()
 
