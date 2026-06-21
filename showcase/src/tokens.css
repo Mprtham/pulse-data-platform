@@ -1,0 +1,22 @@
+/* Deep Signal palette — Pulse Data Platform */
+:root {
+  --bg:           #0F172A;
+  --surface:      #1E293B;
+  --surface-2:    #334155;
+  --text-hi:      #F1F5F9;
+  --text-mid:     #94A3B8;
+  --text-lo:      #64748B;
+  --accent:       #06B6D4;
+  --accent-soft:  #06B6D41A;
+  --success:      #10B981;
+  --warn:         #F59E0B;
+  --error:        #F43F5E;
+
+  --font-heading: 'Space Grotesk', sans-serif;
+  --font-body:    'Inter', sans-serif;
+  --font-mono:    'JetBrains Mono', monospace;
+
+  --radius:       12px;
+  --radius-sm:    6px;
+  --max-w:        1100px;
+}

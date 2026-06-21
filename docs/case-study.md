@@ -3,6 +3,12 @@
 **Author:** Prathamesh Mishra
 **Stack:** Redpanda · DuckDB · dbt · Python · FastAPI · Vite+React · Docker · GitHub Actions · Power BI (PBIP)
 **Repo:** `pulse-data-platform`
+**Showcase:** Static demo site in `showcase/` — deployable to Vercel/GitHub Pages (`npm run build`)
+
+> **Honesty note:** All data is synthetic (modelled on UCI Online Retail II, UK retail domain, GBP).
+> The full live system runs locally via `docker compose up`. The `showcase/` site and `docs/snapshots/`
+> show a captured sample from a real local `dbt build` run on 2026-06-21 (PASS=27, 0 failures).
+> Nothing here is deployed to a production cloud.
 
 ---
 
@@ -117,6 +123,21 @@ transform/
 - Source freshness: warn after 5 min, error after 15 min
 
 `dbt build` on clean seed data: **PASS=27 WARN=0 ERROR=0** (1 seed + 3 models + 23 tests).
+Last verified: 2026-06-21 (see `transform/target/run_results.json`).
+
+**Real mart output — captured 2026-06-21 from local dbt build:**
+
+`marts.mart_daily_revenue` (3 rows, 10 clean seed orders after fault filter):
+
+| revenue_date | order_count | unique_customers | total_revenue_gbp | avg_order_value_gbp |
+|---|---|---|---|---|
+| 2024-01-15 | 4 | 3 | 38.62 | 9.65 |
+| 2024-01-16 | 4 | 4 | 61.30 | 15.33 |
+| 2024-01-17 | 2 | 2 | 24.60 | 12.30 |
+
+**Total: £124.52 across 3 days · 10 orders · 5 unique customers · 6 countries**
+
+Full CSVs in `docs/snapshots/`: `mart_daily_revenue_sample.csv`, `mart_hourly_volume_sample.csv`, `raw_orders_sample.csv`.
 `dbt build` against live data with fault injection active: the `assert_revenue_non_negative` test fails — which is the intended behaviour. The CI run uses clean seed data and must be fully green.
 
 ### Lineage via exposures

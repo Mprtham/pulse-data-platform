@@ -1,0 +1,19 @@
+.demo-section {
+  background: var(--surface);
+  border-top: 1px solid var(--surface-2);
+  border-bottom: 1px solid var(--surface-2);
+}
+
+.demo-tiles {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+@media (max-width: 900px) {
+  .demo-tiles { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 520px) {
+  .demo-tiles { grid-template-columns: 1fr; }
+}

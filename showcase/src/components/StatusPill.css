@@ -1,0 +1,16 @@
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.pill--healthy  { background: #10B98120; color: var(--success); border: 1px solid #10B98140; }
+.pill--degraded { background: #F59E0B20; color: var(--warn);    border: 1px solid #F59E0B40; }
+.pill--down     { background: #F43F5E20; color: var(--error);   border: 1px solid #F43F5E40; }

@@ -1,0 +1,56 @@
+.proves-grid {
+  display: grid;
+  gap: 0;
+  border: 1px solid var(--surface-2);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.proves-header {
+  display: grid;
+  grid-template-columns: 1fr 1.6fr;
+  gap: 0;
+  background: var(--surface-2);
+  padding: 10px 20px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-lo);
+  font-family: var(--font-body);
+}
+
+.proves-row {
+  display: grid;
+  grid-template-columns: 1fr 1.6fr;
+  gap: 0;
+  border-top: 1px solid var(--surface-2);
+  padding: 16px 20px;
+  transition: background 0.15s;
+}
+
+.proves-row:hover { background: var(--surface); }
+
+.proves-need {
+  font-family: var(--font-heading);
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--accent);
+  padding-right: 16px;
+  display: flex;
+  align-items: flex-start;
+  padding-top: 2px;
+}
+
+.proves-proof {
+  font-size: 0.875rem;
+  color: var(--text-mid);
+  line-height: 1.55;
+}
+
+@media (max-width: 640px) {
+  .proves-header { grid-template-columns: 1fr; }
+  .proves-header span:last-child { display: none; }
+  .proves-row { grid-template-columns: 1fr; gap: 6px; }
+  .proves-need { padding-right: 0; }
+}
