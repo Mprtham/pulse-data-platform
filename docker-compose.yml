@@ -1,0 +1,102 @@
+services:
+  redpanda:
+    image: redpandadata/redpanda:latest
+    container_name: pulse-redpanda
+    command:
+      - redpanda
+      - start
+      - --overprovisioned
+      - --smp 1
+      - --memory 512M
+      - --reserve-memory 0M
+      - --node-id 0
+      - --check=false
+      - --kafka-addr PLAINTEXT://0.0.0.0:9092
+      - --advertise-kafka-addr PLAINTEXT://redpanda:9092
+    ports:
+      - "9092:9092"
+      - "9644:9644"
+    healthcheck:
+      test: ["CMD", "rpk", "cluster", "info"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 20s
+
+  topic-init:
+    image: redpandadata/redpanda:latest
+    container_name: pulse-topic-init
+    depends_on:
+      redpanda:
+        condition: service_healthy
+    entrypoint: ["/bin/bash", "-c"]
+    command: >
+      "rpk topic create orders.raw
+       --brokers redpanda:9092
+       --partitions 1
+       --replicas 1 || true"
+    restart: "no"
+
+  generator:
+    build: ./generator
+    container_name: pulse-generator
+    depends_on:
+      topic-init:
+        condition: service_completed_successfully
+    environment:
+      - KAFKA_BROKER=redpanda:9092
+    restart: unless-stopped
+
+  ingest:
+    build: ./ingest
+    container_name: pulse-ingest
+    depends_on:
+      topic-init:
+        condition: service_completed_successfully
+    environment:
+      - KAFKA_BROKER=redpanda:9092
+      - DUCKDB_PATH=/data/pulse.duckdb
+    volumes:
+      - pulse-data:/data
+    restart: unless-stopped
+
+  status-api:
+    build: ./serve/api
+    container_name: pulse-status-api
+    ports:
+      - "8000:8000"
+    environment:
+      - DUCKDB_PATH=/data/pulse.duckdb
+      - DBT_RUN_RESULTS=/transform/target/run_results.json
+    volumes:
+      - pulse-data:/data
+      - ./transform/target:/transform/target:ro
+    restart: unless-stopped
+
+  web-status:
+    image: node:24-slim
+    container_name: pulse-web-status
+    working_dir: /app
+    command: sh -c "npm install && npm run dev -- --host 0.0.0.0"
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./serve/web-status:/app
+    environment:
+      - VITE_API_URL=http://localhost:8000
+    restart: unless-stopped
+
+  monitor:
+    build: ./monitor
+    container_name: pulse-monitor
+    environment:
+      - DUCKDB_PATH=/data/pulse.duckdb
+      - DBT_RUN_RESULTS=/transform/target/run_results.json
+      - DISCORD_WEBHOOK_URL=${DISCORD_WEBHOOK_URL:-}
+    volumes:
+      - pulse-data:/data
+      - ./transform/target:/transform/target:ro
+    restart: unless-stopped
+
+volumes:
+  pulse-data:

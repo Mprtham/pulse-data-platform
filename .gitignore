@@ -1,0 +1,30 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.env
+
+# DuckDB
+*.duckdb
+*.duckdb.wal
+
+# dbt
+transform/target/
+transform/logs/
+transform/dbt_packages/
+transform/.user.yml
+
+# Power BI data exports (run export_parquet.py locally)
+serve/powerbi/data/*.parquet
+
+# Node / Vite
+node_modules/
+dist/
+.astro/
+serve/web-status/dist/
+
+# OS
+.DS_Store
+Thumbs.db

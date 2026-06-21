@@ -1,0 +1,26 @@
+{
+  "name": "Deep Signal",
+  "dataColors": [
+    "#06B6D4",
+    "#10B981",
+    "#F59E0B",
+    "#F43F5E",
+    "#8B5CF6",
+    "#EC4899"
+  ],
+  "background": "#0F172A",
+  "foreground": "#F1F5F9",
+  "tableAccent": "#06B6D4",
+  "visualStyles": {
+    "*": {
+      "*": {
+        "background": [{ "color": { "solid": { "color": "#1E293B" } } }],
+        "border": [{ "show": true, "color": { "solid": { "color": "#334155" } } }],
+        "title": [{
+          "fontColor": { "solid": { "color": "#F1F5F9" } },
+          "background": { "solid": { "color": "#1E293B" } }
+        }]
+      }
+    }
+  }
+}

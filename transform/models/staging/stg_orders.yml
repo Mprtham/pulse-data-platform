@@ -1,0 +1,60 @@
+version: 2
+
+models:
+  - name: stg_orders
+    description: "Cleaned and typed order events. Rows with null invoice_no are dropped (fault-injected)."
+    columns:
+      - name: invoice_no
+        description: "Unique invoice identifier"
+        tests:
+          - not_null
+          - unique
+
+      - name: stock_code
+        description: "Product SKU"
+        tests:
+          - not_null
+
+      - name: quantity
+        description: "Units ordered"
+        tests:
+          - not_null
+
+      - name: unit_price
+        description: "Price per unit in GBP"
+        tests:
+          - not_null
+
+      - name: line_total_gbp
+        description: "quantity × unit_price"
+        tests:
+          - not_null
+
+      - name: customer_id
+        description: "Anonymised customer reference (GUEST when unknown)"
+        tests:
+          - not_null
+
+      - name: country
+        description: "Dispatch country"
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values:
+                  - UNITED KINGDOM
+                  - GERMANY
+                  - FRANCE
+                  - SPAIN
+                  - NETHERLANDS
+                  - AUSTRALIA
+
+      - name: invoice_date
+        description: "Timestamp of the order event"
+        tests:
+          - not_null
+
+      - name: ingested_at
+        description: "Timestamp this row arrived in the warehouse"
+        tests:
+          - not_null

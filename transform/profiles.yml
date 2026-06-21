@@ -1,0 +1,12 @@
+pulse:
+  target: dev
+  outputs:
+    dev:
+      type: duckdb
+      path: "{{ env_var('DUCKDB_PATH', '../warehouse/pulse.duckdb') }}"
+      threads: 4
+
+    ci:
+      type: duckdb
+      path: "{{ env_var('CI_DUCKDB_PATH', '/tmp/pulse_ci.duckdb') }}"
+      threads: 4

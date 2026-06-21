@@ -1,0 +1,39 @@
+name: dbt CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  dbt-build:
+    name: dbt build + test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install dbt-duckdb
+        run: pip install dbt-duckdb
+
+      - name: dbt build (seed + models + tests)
+        working-directory: transform
+        env:
+          CI_DUCKDB_PATH: /tmp/pulse_ci.duckdb
+        run: dbt build --target ci --profiles-dir .
+
+      - name: Upload dbt artefacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: dbt-target
+          path: transform/target/
+          retention-days: 7

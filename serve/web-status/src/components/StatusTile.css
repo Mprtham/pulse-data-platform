@@ -1,0 +1,46 @@
+.tile {
+  background: var(--surface);
+  border: 1px solid var(--surface-2);
+  border-radius: var(--radius);
+  padding: 24px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 0;
+  transition: border-color 0.3s;
+}
+
+.tile--healthy { border-color: var(--success); }
+.tile--degraded { border-color: var(--warn); }
+.tile--down    { border-color: var(--error); }
+
+.tile-label {
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-mid);
+}
+
+.tile-value {
+  font-family: var(--font-mono);
+  font-size: 2.4rem;
+  font-weight: 600;
+  color: var(--text-hi);
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+}
+
+.tile-unit {
+  font-size: 1rem;
+  font-weight: 400;
+  color: var(--text-mid);
+}
+
+.tile-dash {
+  color: var(--text-lo);
+}

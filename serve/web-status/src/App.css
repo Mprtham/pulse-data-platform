@@ -1,0 +1,82 @@
+.layout {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding: 0 24px;
+  max-width: 1100px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* ── Header ── */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 32px 0 40px;
+  border-bottom: 1px solid var(--surface-2);
+  gap: 16px;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.brand {
+  font-family: var(--font-heading);
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-hi);
+  letter-spacing: -0.02em;
+}
+
+.brand-sub {
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  color: var(--text-lo);
+  font-weight: 400;
+}
+
+.updated {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--text-lo);
+}
+
+/* ── Tile grid ── */
+.tiles {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  padding: 40px 0;
+  flex: 1;
+}
+
+@media (max-width: 900px) {
+  .tiles { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 520px) {
+  .tiles { grid-template-columns: 1fr; }
+}
+
+/* ── Footer ── */
+.footer {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px 0 32px;
+  border-top: 1px solid var(--surface-2);
+  font-size: 0.75rem;
+  color: var(--text-lo);
+  font-family: var(--font-mono);
+  gap: 8px;
+  flex-wrap: wrap;
+}

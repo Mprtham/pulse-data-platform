@@ -1,0 +1,29 @@
+version: 2
+
+exposures:
+  - name: pulse_executive_report
+    type: dashboard
+    maturity: high
+    owner:
+      name: Prathamesh Mishra
+      email: mprathamesh2023@gmail.com
+    description: >
+      Power BI executive report showing daily revenue, hourly order volume,
+      and data-quality scorecard. Served to UK retail stakeholders.
+      Any upstream test failure directly blocks this report's trustworthiness.
+    depends_on:
+      - ref('mart_daily_revenue')
+      - ref('mart_hourly_volume')
+
+  - name: pulse_status_page
+    type: application
+    maturity: high
+    owner:
+      name: Prathamesh Mishra
+      email: mprathamesh2023@gmail.com
+    description: >
+      Live web status page showing real-time pipeline health, rows ingested today,
+      and dbt test pass/fail counts. Reads from both marts and the dbt run_results.
+    depends_on:
+      - ref('mart_daily_revenue')
+      - ref('mart_hourly_volume')

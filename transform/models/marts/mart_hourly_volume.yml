@@ -1,0 +1,25 @@
+version: 2
+
+models:
+  - name: mart_hourly_volume
+    description: "Hourly order volume and revenue. Powers the live status page trend tiles."
+    columns:
+      - name: event_date
+        description: "Calendar date"
+        tests:
+          - not_null
+
+      - name: hour_of_day
+        description: "Hour (0–23 UTC)"
+        tests:
+          - not_null
+
+      - name: order_count
+        description: "Distinct invoices in this hour"
+        tests:
+          - not_null
+
+      - name: total_revenue_gbp
+        description: "Sum of line totals in GBP for this hour"
+        tests:
+          - not_null

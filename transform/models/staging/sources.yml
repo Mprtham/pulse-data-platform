@@ -1,0 +1,29 @@
+version: 2
+
+sources:
+  - name: raw
+    schema: raw
+    tables:
+      - name: orders
+        description: "Immutable raw order events ingested from Redpanda"
+        loaded_at_field: ingested_at
+        freshness:
+          warn_after:  { count: 5,  period: minute }
+          error_after: { count: 15, period: minute }
+        columns:
+          - name: invoice_no
+            description: "Unique invoice identifier"
+          - name: stock_code
+            description: "Product stock-keeping unit"
+          - name: quantity
+            description: "Units ordered (may be negative for returns)"
+          - name: unit_price
+            description: "Price per unit in GBP"
+          - name: invoice_date
+            description: "Timestamp of the order event"
+          - name: customer_id
+            description: "Anonymised customer reference"
+          - name: country
+            description: "Dispatch country"
+          - name: ingested_at
+            description: "Timestamp this row landed in the warehouse"

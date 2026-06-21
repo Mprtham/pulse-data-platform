@@ -1,0 +1,14 @@
+{
+  "version": "1.0",
+  "artifacts": [
+    {
+      "report": {
+        "path": "PulseReport.Report"
+      }
+    }
+  ],
+  "settings": {
+    "enableTmdlView": false,
+    "defaultPowerBIDatasetStorageFormat": "PremiumFiles"
+  }
+}
